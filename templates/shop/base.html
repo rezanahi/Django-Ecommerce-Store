@@ -15,7 +15,7 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">BookStore</a>
+                <a class="navbar-brand" href="{% url 'shop:all_products' %}">BookStore</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -37,7 +37,7 @@
                                 <li><a class="dropdown-item" href="{% url "shop:all_products" %}">All</a></li>
                                 {% for c in categories %}
                                 <li>
-                                    <a class="dropdown-item" href="">{{ c.name|title }}</a>
+                                    <a class="dropdown-item" href={{ c.get_absolute_url }}>{{ c.name|title }}</a>
                                 </li>
                                 {% endfor %}
                             </ul>

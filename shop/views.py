@@ -14,3 +14,11 @@ def all_products(request):
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, in_stock=True)
     return render(request, template_name='product/detail.html', context={'product': product})
+
+
+def category_list(request, slug_category):
+    category = get_object_or_404(Category, slug=slug_category)
+    products = Product.objects.filter(category=category)
+    return render(request,
+                  template_name='product/category_list.html',
+                  context={'category': category, 'products': products})
