@@ -2,12 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from .models import Product, Category
 
 
-def categories(request):
-    return {'categories': Category.objects.all()}
-
-
 def all_products(request):
-    products = Product.objects.all()
+    products = Product.product.all()
     return render(request, template_name='shop/home.html', context={'products': products})
 
 
@@ -18,7 +14,7 @@ def product_detail(request, slug):
 
 def category_list(request, slug_category):
     category = get_object_or_404(Category, slug=slug_category)
-    products = Product.objects.filter(category=category)
+    products = Product.objects.filter(category=category, is_active=True)
     return render(request,
                   template_name='product/category_list.html',
                   context={'category': category, 'products': products})
