@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from shop.views import all_products
 from django.http import HttpRequest
+from importlib import import_module
+from django.conf import settings
 
 class TestViewResponse(TestCase):
     def setUp(self) -> None:
@@ -26,7 +28,10 @@ class TestViewResponse(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_homepage_html(self):
-        response = all_products(HttpRequest())
+        request = HttpRequest()
+        engin = import_module(settings.SESSION_ENGINE)
+        request.session = engin.SessionStore()
+        response = all_products(request)
         html = response.content.decode('utf8')
         self.assertIn('<title>Home</title>', html)
         self.assertEqual(response.status_code, 200)
