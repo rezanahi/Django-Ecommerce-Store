@@ -29,5 +29,9 @@ def account_register(request):
                                                   'token': account_activation_token.make_token(user)})
             user.email_user(subject=subject, message=message)
 
+    else:
+        form = RegistrationForm()
+        return render(request, template_name='account/registration/register.html', context={'form': form})
+
 
 
