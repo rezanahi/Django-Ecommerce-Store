@@ -8,6 +8,8 @@ from django.utils.encoding import force_bytes, force_str
 from .token import account_activation_token
 from shop.models import UserBase
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 
 def account_register(request):
@@ -28,18 +30,19 @@ def account_register(request):
             message = render_to_string(template_name='account/registration/account_activation_email.html'
                                         ,context={'user': user,
                                                   'domain': site.domain,
-                                                  'uid': urlsafe_base64_decode(force_bytes(user.pk)),
+                                                  'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                                                   'token': account_activation_token.make_token(user)})
             user.email_user(subject=subject, message=message)
+            return HttpResponse('account registered successfully and activation sent')
 
     else:
         form = RegistrationForm()
         return render(request, template_name='account/registration/register.html', context={'form': form})
 
 
-def account_activate(request, uid64, token):
-    uid = force_str(urlsafe_base64_decode(uid64))
-    user = UserBase.objects.filter(pk=uid)
+def account_activate(request, uidb64, token):
+    uid = force_str(urlsafe_base64_decode(uidb64))
+    user = UserBase.objects.get(pk=uid)
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
@@ -47,3 +50,8 @@ def account_activate(request, uid64, token):
         return redirect('account:dashboard')
     else:
         return render(request, template_name='account/registration/activation_invalid.html')
+
+
+@login_required
+def dashboard(request):
+    return render(request, template_name='account/user/dashboard.html')
