@@ -6,6 +6,8 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from .token import account_activation_token
+from shop.models import UserBase
+from django.contrib.auth import login, logout
 
 
 def account_register(request):
@@ -35,4 +37,13 @@ def account_register(request):
         return render(request, template_name='account/registration/register.html', context={'form': form})
 
 
-
+def account_activate(request, uid64, token):
+    uid = force_str(urlsafe_base64_decode(uid64))
+    user = UserBase.objects.filter(pk=uid)
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request=request, user=user)
+        return redirect('account:dashboard')
+    else:
+        return render(request, template_name='account/registration/activation_invalid.html')
