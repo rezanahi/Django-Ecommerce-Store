@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import RegistrationForm
+from .forms import RegistrationForm, UserEditForm
 from django.shortcuts import redirect
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -55,3 +55,14 @@ def account_activate(request, uidb64, token):
 @login_required
 def dashboard(request):
     return render(request, template_name='account/user/dashboard.html')
+
+
+@login_required
+def edit_details(request):
+    if request.method == 'POST':
+        user_edit = UserEditForm(instance=request.user, data=request.POST)
+        if user_edit.is_valid():
+            user_edit.save()
+    else:
+        user_edit = UserEditForm(instance=request.user)
+    return render(request, template_name='account/user/edit_details.html', context={'user_form': user_edit})
