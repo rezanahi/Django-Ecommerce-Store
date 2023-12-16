@@ -66,3 +66,11 @@ def edit_details(request):
     else:
         user_edit = UserEditForm(instance=request.user)
     return render(request, template_name='account/user/edit_details.html', context={'user_form': user_edit})
+
+
+def delete_user(request):
+    user = UserBase.objects.get(user_name=request.user)
+    user.is_active = False
+    user.save()
+    logout(request)
+    return redirect('account:delete_confirm')
