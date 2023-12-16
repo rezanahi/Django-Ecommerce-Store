@@ -10,6 +10,7 @@ from shop.models import UserBase
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib.auth.hashers import make_password
 
 
 def account_register(request):
@@ -21,7 +22,9 @@ def account_register(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.email = form.cleaned_data['email']
-            user.set_password = form.cleaned_data['password']
+            print(form.cleaned_data['password'])
+            user.set_password(form.cleaned_data['password'])
+            print(f'hashed pass = :{user.password}')
             user.is_active = False
             user.save()
             # email setup

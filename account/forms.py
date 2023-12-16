@@ -11,7 +11,7 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = UserBase
-        fields = ('user_name', 'email',)
+        fields = ('user_name', 'email')
 
     def clean_user_name(self):
         user_name = self.cleaned_data['user_name'].lower()
