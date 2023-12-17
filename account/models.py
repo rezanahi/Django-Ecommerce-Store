@@ -58,7 +58,7 @@ class UserBase(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'accounts'
 
     def email_user(self, subject, message):
-        send_mail(subject=subject, message=message, from_email='1@gmail.com', recipient_list=[self.email], fail_silently=False)
+        send_mail(subject=subject, message=message, from_email='', recipient_list=[self.email], fail_silently=False)
 
     def __str__(self):
         return self.user_name

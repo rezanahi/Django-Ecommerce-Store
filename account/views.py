@@ -22,9 +22,7 @@ def account_register(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.email = form.cleaned_data['email']
-            print(form.cleaned_data['password'])
             user.set_password(form.cleaned_data['password'])
-            print(f'hashed pass = :{user.password}')
             user.is_active = False
             user.save()
             # email setup
