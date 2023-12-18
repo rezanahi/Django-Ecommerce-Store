@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import account_register, account_activate, dashboard, edit_details, delete_user
-from django.contrib.auth.views import LoginView, LogoutView
-from .forms import UserLoginForm
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
+from .forms import UserLoginForm, PwdResetForm
 from django.views.generic import TemplateView
 
 app_name = 'account'
@@ -16,5 +16,9 @@ urlpatterns = [
     path('profile/edit/', edit_details, name='edit_details'),
     path('profile/delete_user/', delete_user, name='delete_user'),
     path('profile/delete_confirm/', TemplateView.as_view(template_name='account/user/delete_confirm.html'), name='delete_confirm'),
+    path('password_reset/', PasswordResetView.as_view(template_name='account/user/password_reset_form.html',
+                                                      success_url='password_reset_email_confirm',
+                                                      email_template_name='account/user/password_reset_email.html',
+                                                      form_class='PwdResetForm'), name='pwdreset')
 ]
 
