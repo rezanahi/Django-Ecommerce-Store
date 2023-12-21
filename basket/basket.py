@@ -1,5 +1,5 @@
 from decimal import Decimal
-
+from django.conf import settings
 from shop.models import Product
 
 
@@ -52,3 +52,8 @@ class Basket():
         for item in self.basket.values():
             total += item['price'] * item['qty']
         return total
+
+    def clear(self):
+        # Remove basket from session
+        del self.session['skey']
+        self.session.modified = True

@@ -10,7 +10,7 @@ from shop.models import UserBase
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.contrib.auth.hashers import make_password
+from order.views import user_orders
 
 
 def account_register(request):
@@ -55,7 +55,9 @@ def account_activate(request, uidb64, token):
 
 @login_required
 def dashboard(request):
-    return render(request, template_name='account/user/dashboard.html')
+    orders = user_orders(request)
+    return render(request, template_name='account/user/dashboard.html',
+                  context={'section': 'profile', 'orders': orders})
 
 
 @login_required
