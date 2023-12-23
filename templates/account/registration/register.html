@@ -1,5 +1,5 @@
-{% extends "shop/../../base.html" %}
-{% block title %}Log-in{% endblock %}
+{% extends "base.html" %}
+{% block title %}Signup{% endblock %}
 {% block content %}
 
 <style>
@@ -54,7 +54,7 @@
                                 {{ form.password2 }}
                                 <button class="btn btn-primary btn-block py-2 mb-4 mt-5 fw500 w-100" type="submit">Register</button>
                                 <p class="text-center">
-                                    <a href="#">Already have an account?</a>
+                                    <a href={% url 'account:login' %}>Already have an account?</a>
                                 </p>
                             </form>
                         </div>
