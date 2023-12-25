@@ -48,8 +48,11 @@
                                     </button>
                                 </div>
                                 <p class="text-center pb-3">
-                                    <a href="{% url "account:register" %}">Create an account</a>
+                                    <div class="text-center"><a href="{% url "account:register" %}">Create an account</a></div>
+{#                                    <a href="{% url "account:register" %}">Create an account</a>#}
+                                    <div class="text-center"><a href="{% url "account:pwdreset" %}">Forgotten Password?</a></div>
                                 </p>
+
                             </form>
                             <p class="small text-center pt-4">
                                 {% comment %} <a href="{% url "password_reset" %}">Forgotten Password?</a> {% endcomment %}
