@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'payment.apps.PaymentConfig',
     'order.apps.OrderConfig',
+    'mptt'
 
 ]
 
